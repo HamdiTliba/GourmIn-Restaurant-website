@@ -1,11 +1,69 @@
-import React from 'react';
+import React, { useRef } from "react";
+import {
+  BsInstagram,
+  BsArrowLeftShort,
+  BsArrowRightShort,
+} from "react-icons/bs";
+import { SubHeading } from "../../components";
+import { images } from "../../constants";
+import "./Gallery.css";
 
-import './Gallery.css';
+const Gallery = () => {
+  const scrollRef = useRef(null);
+  const scroll = (direction) => {
+    const { current } = scrollRef;
 
-const Gallery = () => (
-  <div>
-    Gallery
-  </div>
-);
+    if (direction === "left") {
+      current.scrollLeft -= 300;
+    } else {
+      current.scrollLeft += 300;
+    }
+  };
+  const Galleryimages = [
+    images.gallery01,
+    images.gallery02,
+    images.gallery03,
+    images.gallery04,
+  ];
+  return (
+    <div className="app__gallery flex__center">
+      <div className="app__gallery-content">
+        <SubHeading title="Instagram" />
+        <h1 className="headtext__cormorant">Photo Gallery</h1>
+        <p className="p__opensans" style={{ color: "#AAA", marginTop: "2rem" }}>
+          Suspendisse lacinia nisi mauris, tempus tristique velit ultricies
+          eget. Nullam dictum tincidunt mi ac condimentum. Nunc dignissim tellus
+          nec ante pulvinar placerat. Sed vel auctor felis, in dictum ante.
+          Fusce finibus erat turpis, non consequat elit commodo vel.
+        </p>
+        <button type="button" className="custom__button">
+          View more
+        </button>
+      </div>
+      <div className="app__gallery-images">
+        <div className="app__gallery-images_container" ref={scrollRef}>
+          {Galleryimages.map((image, index) => (
+            <div
+              className="app__gallery-images_card flex__center"
+              key={`gallery_image-${index + 1}`}>
+              <img src={image} alt="gallery_image" />
+              <BsInstagram className="gallery__image-icon" />
+            </div>
+          ))}
+        </div>
+        <div className="app__gallery-images_arrows">
+          <BsArrowLeftShort
+            className="gallery__arrow-icon"
+            onClick={() => scroll("left")}
+          />
+          <BsArrowRightShort
+            className="gallery__arrow-icon"
+            onClick={() => scroll("right")}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Gallery;
